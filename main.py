@@ -1,17 +1,13 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import socket
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
- #test
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(("127.0.0.1", 2000)) #>1024 port
+server.listen(4)
+client_socket, address = server.accept()
+data = client_socket.recv(1024).decode('utf-8')
+print(data)
+HDRS = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n"
+content = "It works".encode("utf-8")
+client_socket.send(HDRS.encode("utf-8") + content)
+print("Shut down it")
